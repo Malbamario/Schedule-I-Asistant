@@ -1,0 +1,144 @@
+Cuke
+= Energizing
+Energizing • If Toxic → Euphoric
+Energizing • If Slippery → Munchies
+Energizing • If Sneaky → Paranoia
+Energizing • If Foggy → Cyclopean
+Energizing • If Gingeritis → Thought-Provoking
+Energizing • If Munchies → Athletic
+Energizing • If Euphoric → Laxative
+Energizing • If Slippery & Munchies → Athletic
+Flu Medicine
+= Sedating
+Sedating • If Calming → Bright-Eyed
+Sedating • If Athletic → Munchies
+Sedating • If Thought-Provoking → Gingeritis
+Sedating • If Cyclopean → Foggy
+Sedating • If Munchies → Slippery
+Sedating • If Laxative → Euphoric
+Sedating • If Euphoric → Toxic
+Sedating • If Focused → Calming
+Sedating • If Electrifying → Refreshing
+Sedating • If Shrinking → Paranoia
+Gasoline
+= Toxic
+Toxic • If Energizing → Euphoric
+Toxic • If Gingeritis → Smelly
+Toxic • If Jennerising → Sneaky
+Toxic • If Sneaky → Tropic Thunder
+Toxic • If Munchies → Sedating
+Toxic • If Energizing → Spicy
+Toxic • If Laxative → Foggy
+Toxic • If Disorienting → Glowing
+Toxic • If Paranoia → Calming
+Toxic • If Electrifying → Disorienting
+Toxic • If Shrinking → Focused
+Donut
+= Calorie-Dense
+Calorie-Dense • If Calorie-Dense (and no Explosive) → Add Explosive
+Calorie-Dense • If Balding → Sneaky
+Calorie-Dense • If Anti-Gravity → Slippery
+Calorie-Dense • If Jennerising → Gingeritis
+Calorie-Dense • If Focused → Euphoric
+Calorie-Dense • If Shrinking → Energizing
+Energy Drink
+= Athletic
+Athletic • If Sedating → Munchies
+Athletic • If Spicy → Euphoric
+Athletic • If Tropic Thunder → Sneaky
+Athletic • If Glowing → Disorienting
+Athletic • If Foggy → Laxative
+Athletic • If Disorienting → Electrifying
+Athletic • If Schizophrenia → Balding
+Athletic • If Focused → Shrinking
+Mouth Wash
+= Balding
+Balding • If Calming → Anti-Gravity
+Balding • If Calorie-Dense → Sneaky
+Balding • If Explosive → Sedating
+Balding • If Focused → Jennerising
+Motor Oil
+= Slippery
+Slippery • If Energizing → Munchies
+Slippery • If Foggy → Toxic
+Slippery • If Energizing → Schizophrenia
+Slippery • If Euphoric → Sedating
+Slippery • If Paranoia → Anti-Gravity
+Slippery • If Munchies → Schizophrenia
+Banana
+= Gingeritis
+Gingeritis • If Energizing (and no Cyclopean) → Thought-Provoking
+Gingeritis • If Calming → Sneaky
+Gingeritis • If Toxic → Smelly
+Gingeritis • If Long Faced → Refreshing
+Gingeritis • If Cyclopean → Thought-Provoking
+Gingeritis • If Disorienting → Focused
+Gingeritis • If Focused → Seizure-Inducing
+Gingeritis • If Paranoia → Jennerising
+Chili
+= Spicy
+Spicy • If Athletic → Euphoric
+Spicy • If Anti-Gravity → Tropic Thunder
+Spicy • If Sneaky → Bright-Eyed
+Spicy • If Munchies → Toxic
+Spicy • If Laxative → Long Faced
+Spicy • If Shrinking → Refreshing
+Iodine
+= Jennerising
+Jennerising • If Calming → Balding
+Jennerising • If Toxic → Sneaky
+Jennerising • If Foggy → Paranoia
+Jennerising • If Calorie-Dense → Gingeritis
+Jennerising • If Euphoric → Seizure-Inducing
+Jennerising • If Refreshing → Thought-Provoking
+Paracetamol
+= Sneaky
+Sneaky • If Energizing (and no Munchies) → Paranoia
+Sneaky • If Calming → Slippery
+Sneaky • If Toxic → Tropic Thunder
+Sneaky • If Spicy → Bright-Eyed
+Sneaky • If Glowing → Toxic
+Sneaky • If Foggy → Calming
+Sneaky • If Munchies → Anti-Gravity
+Sneaky • If Energizing & Paranoia → Balding
+Sneaky • If Electrifying → Athletic
+Viagra
+= Tropic Thunder
+Tropic Thunder • If Athletic → Sneaky
+Tropic Thunder • If Euphoric → Bright-Eyed
+Tropic Thunder • If Laxative → Calming
+Tropic Thunder • If Disorienting → Toxic
+Horse Semen
+= Long Faced
+Long Faced • If Anti-Gravity → Calming
+Long Faced • If Gingeritis → Refreshing
+Long Faced • If Thought-Provoking → Electrifying
+Mega Bean
+= Foggy
+Foggy • If Energizing (and no Thought-Provoking) → Cyclopean
+Foggy • If Calming → Glowing
+Foggy • If Sneaky → Calming
+Foggy • If Jennerising → Paranoia
+Foggy • If Athletic → Laxative
+Foggy • If Slippery → Toxic
+Foggy • If Thought-Provoking → Energizing
+Foggy • If Seizure-Inducing → Focused
+Foggy • If Focused → Disorienting
+Foggy • If Sneaky → Glowing
+Foggy • If Thought-Provoking → Cyclopean
+Foggy • If Shrinking → Electrifying
+Addy
+= Thought-Provoking
+Thought-Provoking • If Sedating → Gingeritis
+Thought-Provoking • If Long Faced → Electrifying
+Thought-Provoking • If Glowing → Refreshing
+Thought-Provoking • If Foggy → Energizing
+Thought-Provoking • If Explosive → Euphoric
+Battery
+= Bright-Eyed
+Bright-Eyed • If Munchies → Tropic Thunder
+Bright-Eyed • If Euphoric (and no Electrifying) → Zombifying
+Bright-Eyed • If Electrifying (and no Zombifying) → Euphoric
+Bright-Eyed • If Laxative → Calorie-Dense
+Bright-Eyed • If Electrifying → Euphoric
+Bright-Eyed • If Shrinking → Munchies
