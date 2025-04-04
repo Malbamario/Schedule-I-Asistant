@@ -1,3 +1,5 @@
+import logging
+logging.basicConfig(level=logging.INFO)
 from Classes import *
 
 # def reacting(reactions:list[dict[str,]], subs_effect, product_effects):
@@ -18,78 +20,67 @@ from Classes import *
 #                         new_effects.append(reaction["other_added_effect"])
 #     return new_effects
 
-def mixing(product:Product, substance:Substance):
-    new_effects = substance.react(product.effects[:])
-    
-    if len(product.code.split("_"))>1:
-        new_substances = product.sub_hist[:]
-        # if substance.code == "D" and substance in new_substances: 
-        #     print("before: ", product.code)
-        new_code = f"{product.code}{substance.code}"
-    else :
-        new_substances = []
-        new_code = f"{product.code}_{substance.code}"
-    
+def mixing(product:Product, substance:Substance)->MixedProduct:
+    new_effects = substance.react(product.effects)
+    new_substances = product.sub_hist[:] if len(product.code.split("_")) > 1 else []
+    new_code = f"{product.code}_{substance.code}" if not new_substances else f"{product.code}{substance.code}"
     new_substances.append(substance)
     # if substance.code == "D" and substance in new_substances: 
     #     print("after : ", new_code)
     return MixedProduct(new_code, product.rank, new_effects, new_substances, product.base_price)
 
-def recursion_mixing(mixed_products:list[Product], product:Product, substances:list[Substance]):
+def recursion_mixing(mixed_products: list[MixedProduct], product: Product, substances: list[Substance]):
     result = mixed_products[:]
-    # temp = []
-    if len(product.code.split("_"))>1:
-        if len(product.sub_hist) == SUBSTANCE_STACK: return result
+    depth = len(product.sub_hist) if len(product.code.split("_")) > 1 else 0
+    logging.debug(f"Depth: {depth}, Product: {product.code}, Results: {len(mixed_products)}")
     
+    if depth == SUBSTANCE_STACK:
+        return result
+
     for substance in substances:
-        
         new_product = mixing(product, substance)
-        new_effects_name = get_effects_name(new_product.effects)
-                
-        if sorted(new_effects_name) != sorted(get_effects_name(product.effects)):
-            if REDUNDANT_PRODUCT:
-                is_same = False
-                for mixed_product in result:
-                    if set(mixed_product.effects) == set(new_product.effects):
-                        if new_product.cost >= new_product.cost and set(mixed_product.sub_hist) == set(new_product.sub_hist):
-                            new_product = None
-                            is_same = True
+        
+        if get_effects_name(new_product.effects) == get_effects_name(product.effects):
+            continue
+        
+        if USER_TARGET_EFFECTS:
+            if not all(effect in USER_TARGET_EFFECTS for effect in get_effects_name(new_product.effects)):
+                continue
+        
+        is_redundant = False
+        for idx, mixed_product in enumerate(result):
+            mixed_product_sub_name = get_substances_name(mixed_product.sub_hist)
+            new_product_sub_name = get_substances_name(new_product.sub_hist)
+            if get_effects_name(product.effects) == get_effects_name(new_product.effects):
+                if (mixed_product_sub_name != new_product_sub_name or not mixed_product_sub_name.issubset(new_product_sub_name)):
+                    if new_product.cost < mixed_product.cost:
+                        if NO_REDUNDANT_PRODUCT: result.pop(idx)
+                    elif new_product.cost > mixed_product.cost:
+                        if NO_REDUNDANT_PRODUCT:
+                            is_redundant = True
                             break
-                if is_same: continue
-                
-            if len(USER_TARGET_EFFECTS)>0:
-                if all(target_effect_name in new_effects_name for target_effect_name in USER_TARGET_EFFECTS):
-                    # temp = recursion_mixing(result, new_product, substances)
-                    # result.extend(temp)
-                    result.append(new_product)
-                    print(USER_TARGET_EFFECTS, product.code, new_product.code)
-                    # result_code = [mixed_product.code for mixed_product in result]
-                    # print(result_code)
-            else: result.append(new_product)
-            
-            result = recursion_mixing(result, new_product, substances)
-            
+        if is_redundant: continue
+        result.append(new_product)
+        result = recursion_mixing(result, new_product, substances)
     return result
 
 def produce(product:Product,substances:list[Substance]):
-    result = []
     
-    if USER_RANK>0 and product.rank>USER_RANK: return result
+    if USER_RANK>0 and product.rank>USER_RANK: return []
     
-    substances = list(filter(lambda x: x.rank<=USER_RANK, substances))
             
-    if len(USER_PRODUCT_TYPE)>0:
-        if product.code not in USER_PRODUCT_TYPE:
+    if USER_PRODUCT_TYPE and product.code not in USER_PRODUCT_TYPE:
             print("Produk tidak dapat anda gunakan dengan rank anda saat ini")
-            return result
+            return []
     
+    substances = [s for s in substances if s.rank <= USER_RANK]
     if len(USER_SUBSTANCES)>0:
-        if any(substance.name in USER_SUBSTANCES for substance in substances):
-            substances = list(filter(lambda x: x.name in USER_SUBSTANCES, substances))
-        else: print("Tidak ada Substance yang dapat anda gunakan dengan rank anda saat ini")
-            
-    result = recursion_mixing(result, product, substances)
-    return result
+        substances = [s for s in substances if s.name in USER_SUBSTANCES]
+        if not substances:
+            print("Tidak ada Substance yang dapat anda gunakan dengan rank anda saat ini")
+            return []
+    
+    return recursion_mixing([], product, substances)
     
     
     # for i in range(SUBSTANCE_STACK):
@@ -102,4 +93,4 @@ def produce(product:Product,substances:list[Substance]):
     #                 if any(mixed_effect_name in USER_TARGET_EFFECT for mixed_effect_name in mixed_effects_name)
     #                     temp2.append(mixed_product)
     #     temp = temp2[:]
-    #     result.extend(temp)
+    #     result.extend(temp

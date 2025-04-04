@@ -1,3 +1,4 @@
+from typing import Any
 from MixingFinalVar import *
 
 class Item:
@@ -14,14 +15,14 @@ class Effect:
         self.color = color
 
 class Substance(Item):
-    def __init__(self, code, name, rank, effect:Effect, reactions:list[dict[str]], cost=0):
+    def __init__(self, code, name, rank, effect:Effect, reactions:list[dict[str, Any]], cost=0):
         super(Substance, self).__init__(code, rank, cost)
         self.name = name
         self.effect = effect
         self.reactions = reactions
         
     def react(self, effects):
-        new_effects = effects[:]
+        new_effects = effects
         applied_replacements = set()
         deffered_reactions = []
         
@@ -34,7 +35,7 @@ class Substance(Item):
                 # Lakukan penggantian efek
                 for old, new in reaction['replace'].items():
                     if old in get_effects_name(effects) and old not in applied_replacements:
-                        new_effects = [new if effect.name == old else effect for effect in new_effects]
+                        new_effects = {new if effect.name == old else effect for effect in new_effects}
                         applied_replacements.add(old)
                 
                 # Tambahkan efek baru jika belum ada
@@ -47,7 +48,7 @@ class Substance(Item):
                 # Lakukan penggantian efek
                 for old, new in reaction['replace'].items():
                     if old in get_effects_name(new_effects):
-                        new_effects = [new if effect.name == old else effect for effect in new_effects]
+                        new_effects = {new if effect.name == old else effect for effect in new_effects}
 
                 # Tambahkan efek baru
                 # if all(effect in effects for effect in reaction['if_present']):
@@ -56,7 +57,7 @@ class Substance(Item):
                 #             new_effects.append(add)
         
         if self.effect not in new_effects and len(new_effects) < MAX_EFFECT:
-            new_effects.append(self.effect)
+            new_effects.add(self.effect)
         return new_effects
 
     # def react(self, effects) -> list[Effect]:
@@ -68,7 +69,7 @@ class Substance(Item):
     #     return new_effects
 
 class Product(Item):
-    def __init__(self, code, rank, effects:list[Effect], base_price, cost=0):
+    def __init__(self, code, rank, effects:set[Effect], base_price, cost=0):
         super(Product, self).__init__(code, rank, cost)
         self.base_code = code
         self.effects = effects
@@ -99,12 +100,12 @@ def get_substances_rank(substances:list[Substance]):
         return max([substance.rank for substance in substances])
     else: return 0
 
-def get_substances_name(substances:list[Substance]):
+def get_substances_name(substances:list[Substance])->set:
     if len(substances)>0:
-        return [substance.name for substance in substances]
-    else: return []
+        return set([substance.name for substance in substances])
+    else: return {}
     
-def get_effects_name(effects:list[Effect]):
+def get_effects_name(effects:list[Effect])-> set:
     if len(effects)>0:
-        return [effect.name for effect in effects]
-    else: return []
+        return set([effect.name for effect in effects])
+    else: return {}
