@@ -102,7 +102,7 @@ def get_substances_rank(substances:list[Substance]):
 
 def get_substances_name(substances:list[Substance])->set:
     if len(substances)>0:
-        return set([substance.name for substance in substances])
+        return [substance.name for substance in substances]
     else: return {}
     
 def get_effects_name(effects:list[Effect])-> set:

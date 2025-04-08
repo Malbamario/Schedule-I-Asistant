@@ -3,7 +3,6 @@ from mpi4py import MPI
 import pandas as pd
 import pprint as pp
 import json
-import sys
 import os
 from ProcessingData import *
 

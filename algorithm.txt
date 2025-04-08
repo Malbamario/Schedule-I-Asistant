@@ -1,0 +1,57 @@
+Item: Seluruh Item yang ada pada game Schedule 1. setiap item meiliki code, rank dan cost.
+
+Effect: Pengaruh yang terdapat pada beberapa turunan dari Item. setiap Effect memiliki:
+-> abbr  : singkatan dari name
+-> name  : nama effect
+-> multi : multiplier terhadap base price product
+-> color : warna font effect
+
+Substance: Turunan dari Item yang dapat dicampurkan dengan berbagai produk. Selain yang terdapat pada Item, setiap substance memiliki:
+-> name      : nama dari substance
+-> effect    : efek yang dimiliki sebuah substance
+-> reactions : kumpulan reaksi atau aturan ketika dicampurkan dengan produk. reaction merupakan set dari reaction yang berisi:
+--> if_present     : set yang berisi efek yang diperlukan untuk terjadinya reaksi
+--> if_not_present : set yang berisi efek yang tidak boleh ada untuk terjadinya reaksi
+--> replace        : dictionary yang berisi key berupa kode efek yang akan digantikan dan value yang berupa object Effect yang menggatikannya
+-> react(): method yang digunakan untuk menghasilkan daftar efek yang baru dari pencampuran sebuah produk dengan substance tersebut. 
+            untuk menentukan reaksi mana yang akan bekerja dilakukan pengecekan terhadap efek yang terdapat pada produk tersebut.
+            jika pada produk tersebut terdapat 1 atau lebih efek yang sama dengan semua efek yang terdapat pada if_present
+            maka lanjut ke tahap selanjutnya, jika tidak maka lanjut ke reaksi selanjutnya.
+            tahap selanjutnya, jika pada produk tersebut terdapat setidaknya salah satu efek yang sama dengan efek pada if_not_present
+            maka lanjut ke reaksi selanjutnya, jika tidak maka reaksi tersebut akan ditunda di fase selanjutnya.
+            setiap efek yang terdapat pada product akan diganti sesuai efek yang terdapat pada replace
+            Bagi reaksi yang tertunda, akan dicek kembali apakah setelah fase pertama, efek yang tidak boleh ada telah tiada.
+            jika sudah tidak ada, maka reaksi tersebut dapat diimplementasikan, jika tidak maka reaksi batal diimplementasikan.
+            jika jumlah efek tidak melebihi maksimal efek yang ditentukan maka efek yang dimiliki substance tersebut dapat ditambahkan.
+
+Product: Turunan dari Item yang menyimpan data produk murni tanpa campuran apapun. Selain yang terdapat pada Item, setiap product memiliki:
+-> base_code     : yang menyimpan code asal dari sebuah produk maupun turunannya.
+-> effects       : set yang menyimpan daftar effect.
+-> base_price    : harga dasar yang digunakan sebagai nilai dasar dari perhitungan harga jualnya.
+-> final_price() : method yang digunakan untuk menghitung harga jual produk tersebut berdasarkan jumlah multiplier dari effect yang dimiliki.
+
+MixedProduct: Turunan dari Product yang menyimpan data produk yang telah dicampur dengan berbagai substance. Selain yang terdapat pada Product, setiap MixedProduct memiliki:
+-> sub_hist     : daftar substance yang digunakan untuk mendapatkan efek yang dimiliki produk tersebut.
+-> final_cost() : method yang digunakan untuk menghitung jumlah cost berdasarkan jumlah cost dari seluruh substance yang digunakan.
+Perbedaan lainnya, cost diisi dengan method final_cost dan rank dari produk didapatkan dari rank tertinggi pada substances yang digunakan.
+
+get_substances_rank(): fungsi yang digunakan untuk mendapatkan rank tertinggi dari list substances yang diberikan
+get_substances_name(): fungsi yang digunakan untuk mendapatkan daftar nama dari list substances yang diberikan
+get_effects_name()   : fungsi yang digunakan untuk mendapatkan daftar nama dari list effects yang diberikan
+
+mixing(): fungsi yang digunakan untuk mendapatkan MixedProduct berdasarkan produk dan substance yang diberikan. efek baru didapatkan dari fungsi react yang terdapat pada substance.
+          jika kode produk dipisah dengan uncerscore "_" dan jumlahnya lebih dari satu alias merupakan MixedProduct
+          maka daftar substance produk lama akan ditambahkan ke dalam daftar substance produk yang baru dan kode produk yang lama akan diimbuhkan kode substance sebagai kode yang baru,
+          jika tidak maka daftar substance masih kosong dan kode produk yang baru berisi kode produk yang lama diberi underscore "_" sebagai pemisah dan kemudian kode substance yang baru.
+          substance yang baru ditambahkan ke daftar substance dan MixedProduct dikirim dengan kode, effect dan substance yang baru dan base_price yang sama dengan produk yang lama.
+
+recursion_mixing(): fungsi yang digunakan untuk melakukan rekursi berbagai kombinasi antara produk dengan substance. fungsi ini membutuhkan daftar produk yang telah dicampurkan,
+                    produk yang akan dicampurkan, dan daftar substances yang ingin dicampur. Jika jumlah substance pada produk sama dengan batas maksimal
+                    maka akan mengembalikan daftar produk yang telah dicampurkan sebelumnya, jika tidak lanjut ke tahap selanjutnya. pencampuran akan dilakukan kepada setiap substance
+                    yang terdapat pada daftar substance yang telah diberikan. setiap pencampuran akan dicek dengan berbagai ketentuan.
+                    jika efek hasil pencampuran baru dengan produk yang sebelumnya sama maka akan mengembalikan nilai result, jika tidak maka lanjut ke tahap selanjutnya.
+                    result akan diisi dengan fungsi recursion dengan result sebagai daftar mixed product, produk baru hasil mixing, dan daftar substance. jika USER_TARGET_EFFECTS berisi,
+                    maka kemudian jika tidak semua efek dari produk yang telah dicampur dengan sebuah substance terdapat pada USER_TARGET_EFFECTS maka lanjut ke substance berikutnya,
+                    jika tidak maka lanjut ke tahap berikutnya.jika efek produk baru sama dengan produk pada daftar mixed product DAN substancenya tidak sama atau substance produk dari
+                    mixed product bukan bagian dari substance produk baru, maka lanjut ke tahap selanjutnya, jika tidak maka lanjut ke produk dari mixed product selanjutnya.
+                    jika 
