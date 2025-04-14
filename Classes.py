@@ -22,7 +22,7 @@ class Substance(Item):
         self.reactions = reactions
         
     def react(self, effects):
-        new_effects = effects
+        new_effects = set(effects)
         applied_replacements = set()
         deffered_reactions = []
         
@@ -100,12 +100,12 @@ def get_substances_rank(substances:list[Substance]):
         return max([substance.rank for substance in substances])
     else: return 0
 
-def get_substances_name(substances:list[Substance])->set:
+def get_substances_name(substances:list[Substance])->list:
     if len(substances)>0:
         return [substance.name for substance in substances]
-    else: return {}
+    else: return []
     
-def get_effects_name(effects:list[Effect])-> set:
+def get_effects_name(effects:set[Effect])-> set:
     if len(effects)>0:
         return set([effect.name for effect in effects])
-    else: return {}
+    else: return set()

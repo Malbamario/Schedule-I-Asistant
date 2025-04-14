@@ -1,0 +1,71 @@
+APP_VERSION: "V3.0"
+MIXING_CALCULATOR_DATA_FILE : "mix_effects_dataV1.json"
+MAX_EFFECT : 8
+SUBSTANCE_STACK : 8
+USER_RANK : 26
+MODE: "BFS" #DFS OR BFS
+NO_REDUNDANT_PRODUCT : True
+SPLIT_PRODUCTS: True
+SPLIT_TYPE: "File" #File or Sheet
+USER_SUBSTANCES: [
+    # "Cuke",
+    # "Flu Medicine",
+    # "Gasoline",
+    # "Donut",
+    # "Energy Drink",
+    # "Mouth Wash",
+    # "Motor Oil",
+    # "Banana",
+    # "Chili",
+    # "Iodine",
+    # "Paracetamol",
+    # "Viagra",
+    # "Horse Semen",
+    # "Mega Bean",
+    # "Addy",
+    # "Battery"
+]
+USER_PRODUCT_TYPE: [
+    # "W01",
+    # "W02",
+    # "W03",
+    # "W04",
+    # "M01",
+    # "C01",
+]
+USER_TARGET_EFFECTS: [
+    # "Calming",
+    # "Refreshing",
+    # "Energizing",
+    # "Sedating",
+    # "Bright-Eyed",
+    # "Calorie-Dense",
+    # "Euphoric",
+    # "Toxic",
+    # "Athletic",
+    # "Balding",
+    # "Anti-Gravity",
+    # "Munchies",
+    # "Slippery",
+    # "Gingeritis",
+    # "Sneaky",
+    # "Thought-Provoking",
+    # "Spicy",
+    # "Paranoia",
+    # "Tropic Thunder",
+    # "Glowing",
+    # "Cyclopean",
+    # "Foggy",
+    # "Explosive",
+    # "Laxative",
+    # "Long Faced",
+    # "Jennerising",
+    # "Electrifying",
+    # "Disorienting",
+    # "Schizophrenia",
+    # "Seizure-Inducing",
+    # "Zombifying",
+    # "Focused",
+    # "Smelly",
+    # "Shrinking"
+]

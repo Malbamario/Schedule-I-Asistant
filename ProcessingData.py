@@ -1,6 +1,6 @@
 import pandas as pd
 import json
-from Mixing import *
+from Classes import *
 
 def data_processing():
     
@@ -95,11 +95,10 @@ def export_mixing_config(path, start, end=""):
         "MAX_EFFECT": MAX_EFFECT,
         "SUBSTANCE_STACK": SUBSTANCE_STACK,
         "USER_RANK": USER_RANK,
+        "MODE": MODE,
         "NO_REDUNDANT_PRODUCT": NO_REDUNDANT_PRODUCT,
         "SPLIT_PRODUCTS": SPLIT_PRODUCTS,
         "SPLIT_TYPE": SPLIT_TYPE,
-        "REDUNDANT_PRODUCT_CODE": REDUNDANT_PRODUCT_CODE,
-        "SPLIT_PRODUCTS_CODE": SPLIT_PRODUCTS_CODE,
         "OUTPUT_FILENAME": OUTPUT_FILENAME,
         "USER_SUBSTANCES": USER_SUBSTANCES,
         "USER_PRODUCT_TYPE": USER_PRODUCT_TYPE,
@@ -110,3 +109,34 @@ def export_mixing_config(path, start, end=""):
     
     with open(f'{path}/config.json', 'w') as fp:
         json.dump(config_dict, fp)
+    print(f"config exported at {path}/config.json")
+        
+def object_2_df(new_products:list[Product], product_name='', product_type:dict={}):
+    result = []
+    for product in new_products:
+        result_data = {
+            "code": product.code,
+            "product_type": product_type[product.base_code] if product_type else product_name,
+            "effects": ', '.join(sorted(get_effects_name(product.effects))),
+            "effects_len": len(product.effects),
+            "substances": ', '.join(get_substances_name(product.sub_hist)),
+            "substances_len": len(product.sub_hist),
+            "minimum_rank": product.rank,
+            "mix_cost": product.cost,
+            "sell_price": product.final_price()
+        }
+        if SPLIT_PRODUCTS: result_data.pop("product_type", None)
+        result.append(result_data)
+        
+    return pd.DataFrame(result)
+
+def export_2_xlsx(path, df:pd.DataFrame=pd.DataFrame([]), list_df:list[pd.DataFrame]=[], output_filename="", products_name=[]):
+    if SPLIT_PRODUCTS and SPLIT_TYPE=="Sheet":
+        with pd.ExcelWriter(output_filename) as writer:
+            for i, df in enumerate(list_df):
+                df.to_excel(writer, sheet_name=products_name[i], index=False)
+            writer.save()
+    else:
+        output_filename = OUTPUT_FILENAME if output_filename=="" else output_filename
+        df.to_excel(f"{path}/{output_filename}", index=False)
+    print(f'{output_filename} is exported!')
